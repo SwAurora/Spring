@@ -7,5 +7,5 @@ import org.springframework.stereotype.Component;
 public interface TestMapper
 {
     @Select("select sysdate() from dual")
-    public String getTime();
+    String getTime();
 }
