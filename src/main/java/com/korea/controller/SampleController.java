@@ -1,16 +1,11 @@
 package com.korea.controller;
 
-import com.korea.domain.SampleDTO;
-import com.korea.domain.SampleDTOList;
-import com.korea.domain.TodoDTO;
-import com.korea.domain.TodoDTO2;
+import com.korea.domain.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.SimpleDateFormat;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Slf4j
@@ -83,5 +78,55 @@ public class SampleController
     {
         log.info("URL : /test8");
         log.info(String.valueOf(dto));
+    }
+
+    @GetMapping("/test9")
+    public void test9(SampleDTO dto, Model model)
+    {
+        log.info("URL : /test9");
+        log.info("dto : " + dto);
+
+        model.addAttribute("dto", dto);
+    }
+
+    @GetMapping("/test10")
+    public String test10()
+    {
+        log.info("URL : /test10");
+
+        return "/test10";
+    }
+
+    @GetMapping("/forward")
+    public String Forward(SampleDTO dto, Model model)
+    {
+        log.info("URL : /forward");
+
+        model.addAttribute("dto", dto);
+
+        return "forward:result";
+    }
+
+    @GetMapping("/redirect")
+    public String Redirect(SampleDTO dto, RedirectAttributes rttr)
+    {
+        log.info("URL : /redirect");
+
+        rttr.addFlashAttribute("dto", dto);
+
+        return "redirect:result";
+    }
+
+    @GetMapping("/result")
+    public void Result(Model model)
+    {
+        log.info("URL : /result");
+        BoardDTO dto = BoardDTO.builder()
+                .no(1010)
+                .content("내용")
+                .writer("작성자")
+                .build();
+
+        model.addAttribute("board", dto);
     }
 }
