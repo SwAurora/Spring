@@ -2,6 +2,9 @@ package com.korea.controller;
 
 import com.korea.domain.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -128,5 +131,28 @@ public class SampleController
                 .build();
 
         model.addAttribute("board", dto);
+    }
+
+    @GetMapping("/objectTest")
+    public @ResponseBody SampleDTO ObjectTest()
+    {
+        SampleDTO dto = new SampleDTO();
+        dto.setName("홍길동");
+        dto.setAge(55);
+
+        return dto;
+    }
+
+    @GetMapping("/objectTest2")
+    public ResponseEntity<SampleDTO> ObjectTest2()
+    {
+        SampleDTO dto = new SampleDTO();
+        dto.setName("홍길동");
+        dto.setAge(55);
+
+        HttpHeaders header = new HttpHeaders();
+        header.add("content-Type", "application/json; charset=UTF-8");
+
+        return new ResponseEntity<>(dto, header, HttpStatus.OK);
     }
 }
